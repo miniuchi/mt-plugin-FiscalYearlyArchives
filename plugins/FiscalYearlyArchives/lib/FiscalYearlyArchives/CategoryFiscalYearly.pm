@@ -199,6 +199,20 @@ sub archive_entries_count {
     );
 }
 
+sub does_publish_file {
+    my $obj    = shift;
+    my %params = %{ shift() };
+    if ( !$params{Category} && $params{Entry} ) {
+        $params{Category} = $params{Entry}->category;
+    }
+    return 0 unless $params{Category};
+
+    return 1 if $params{Blog}->publish_empty_archive;
+
+    MT::ArchiveType::archive_entries_count( $obj, \%params );
+}
+
+
 *date_range             = \&FiscalYearlyArchives::FiscalYearly::date_range;
 *next_archive_entry     = \&MT::ArchiveType::Date::next_archive_entry;
 *previous_archive_entry = \&MT::ArchiveType::Date::previous_archive_entry;

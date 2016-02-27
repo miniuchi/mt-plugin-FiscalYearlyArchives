@@ -182,7 +182,8 @@ sub archive_entries_count {
     my $obj = shift;
     my ( $blog, $at, $entry ) = @_;
     my $auth = $entry->author;
-    return $obj->SUPER::archive_entries_count(
+    return MT::ArchiveType::archive_entries_count(
+        $obj,
         {
             Blog        => $blog,
             ArchiveType => $at,
@@ -191,6 +192,19 @@ sub archive_entries_count {
         }
     );
 }
+
+sub does_publish_file {
+    my $obj    = shift;
+    my %params = %{ shift() };
+
+    if ( !$params{Author} && $params{Entry} ) {
+        $params{Author} = $params{Entry}->author;
+    }
+    return 0 unless $params{Author};
+
+    MT::ArchiveType::archive_entries_count( $obj, \%params );
+}
+
 
 *date_range             = \&FiscalYearlyArchives::FiscalYearly::date_range;
 *next_archive_entry     = \&MT::ArchiveType::Date::next_archive_entry;
