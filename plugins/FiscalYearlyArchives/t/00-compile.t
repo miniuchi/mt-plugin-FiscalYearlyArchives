@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More;
 
-use lib qw( lib extlib t/lib plugins/FiscalYearArchives/lib );
+use lib qw( lib extlib t/lib plugins/FiscalYearlyArchives/lib );
 
 use_ok 'FiscalYearlyArchives::AuthorFiscalYearly';
 use_ok 'FiscalYearlyArchives::CategoryFiscalYearly';
