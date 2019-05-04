@@ -15,5 +15,3 @@ use_ok 'FiscalYearlyArchives::Util';
 
 done_testing;
 
-~
-
