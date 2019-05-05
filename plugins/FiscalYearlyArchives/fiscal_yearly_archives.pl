@@ -52,6 +52,8 @@ sub init_registry {
                   'FiscalYearlyArchives::ContentTypeFiscalYearly',
                 'ContentType-Author-FiscalYearly' =>
                   'FiscalYearlyArchives::ContentTypeAuthorFiscalYearly',
+                'ContentType-Category-FiscalYearly' =>
+                  'FiscalYearlyArchives::ContentTypeCategoryFiscalYearly',
             },
         }
     );

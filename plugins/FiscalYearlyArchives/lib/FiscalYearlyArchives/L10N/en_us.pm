@@ -10,6 +10,7 @@ our %Lexicon = (
     'CATEGORY-FISCAL-YEARLY_ADV' => 'Category Fiscal Yearly',
     'CONTENTTYPE-FISCAL-YEARLY_ADV' => 'ContentType Fiscal Yearly',
     'CONTENTTYPE-AUTHOR-FISCAL-YEARLY_ADV' => 'ContentType Author Fiscal Yearly',
+    'CONTENTTYPE-CATEGORY-FISCAL-YEARLY_ADV' => 'ContentType Category Fiscal Yearly',
     'FISCAL_MONTH-1'             => 'January',
     'FISCAL_MONTH-2'             => 'February',
     'FISCAL_MONTH-3'             => 'March',
