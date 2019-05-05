@@ -9,6 +9,7 @@ our %Lexicon = (
     'AUTHOR-FISCAL-YEARLY_ADV'   => 'ユーザー 年度別',
     'CATEGORY-FISCAL-YEARLY_ADV' => 'カテゴリ 年度別',
     'CONTENTTYPE-FISCAL-YEARLY_ADV' => 'コンテンツタイプ 年度別',
+    'CONTENTTYPE-AUTHOR-FISCAL-YEARLY_ADV' => 'コンテンツタイプ ユーザー 年度別',
     'A plugin for building Fiscal Yearly Archives' =>
       '年度別アーカイブを生成するプラグイン',
     'Fiscal Start Month' => '年度の開始月',
