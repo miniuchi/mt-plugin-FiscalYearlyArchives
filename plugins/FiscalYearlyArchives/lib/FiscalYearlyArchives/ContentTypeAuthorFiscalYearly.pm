@@ -3,7 +3,12 @@ use strict;
 use warnings;
 use parent 'MT::ArchiveType::ContentTypeAuthorYearly';
 
+use FiscalYearlyArchives::Util
+  qw( fiscal_start_month ts2fiscal start_end_fiscal_year );
+use MT::Util qw( dirify );
+
 use FiscalYearlyArchives::AuthorFiscalYearly;
+use FiscalYearlyArchives::ContentTypeFiscalYearly;
 
 sub name { 'ContentType-Author-FiscalYearly' }
 
@@ -13,7 +18,8 @@ sub archive_label {
 }
 
 sub archive_short_label {
-    return MT->translate("AUTHOR-FISCAL-YEARLY_ADV");
+    my $plugin = MT::Plugin::FiscalYearlyArchives->instance;
+    return $plugin->translate("AUTHOR-FISCAL-YEARLY_ADV");
 }
 
 sub order { 265 }
@@ -54,8 +60,33 @@ sub archive_title {
     FiscalYearlyArchives::AuthorFiscalYearly::archive_title(@_);
 }
 
-sub arhicve_file {
-    FiscalYearlyArchives::AuthorFiscalYearly::archive_file(@_);
+sub archive_file {
+    my $obj = shift;
+    my ( $ctx, %param ) = @_;
+    my $timestamp = $param{Timestamp};
+    my $file_tmpl = $param{Template};
+    my $author    = $ctx->{__stash}{author};
+    my $content   = $ctx->{__stash}{content};
+    my $file;
+    my $this_author =
+      $author ? $author : ( $content ? $content->author : undef );
+    return "" unless $this_author;
+    my $name = dirify( $this_author->nickname );
+
+    if ( $name eq '' || !$file_tmpl ) {
+        $name = 'author' . $this_author->id if $name !~ /\w/;
+        my $year = ts2fiscal($timestamp);
+        $file = sprintf( "%s/%04d/index", $name, $year );
+    }
+    else {
+        ( $ctx->{current_timestamp}, $ctx->{current_timestamp_end} ) =
+          start_end_fiscal_year($timestamp);
+    }
+    $file;
+}
+
+sub date_range {
+    FiscalYearlyArchives::ContentTypeFiscalYearly::date_range(@_);
 }
 
 sub archive_group_iter {
