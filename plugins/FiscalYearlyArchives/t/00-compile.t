@@ -7,6 +7,7 @@ use lib qw( lib extlib t/lib plugins/FiscalYearlyArchives/lib );
 
 use_ok 'FiscalYearlyArchives::AuthorFiscalYearly';
 use_ok 'FiscalYearlyArchives::CategoryFiscalYearly';
+use_ok 'FiscalYearlyArchives::ContentTypeFiscalYearly';
 use_ok 'FiscalYearlyArchives::FiscalYearly';
 use_ok 'FiscalYearlyArchives::L10N';
 use_ok 'FiscalYearlyArchives::L10N::en_us';
