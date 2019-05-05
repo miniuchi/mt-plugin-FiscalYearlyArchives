@@ -9,7 +9,12 @@ sub name { 'ContentType-FiscalYearly' }
 
 sub archive_label {
     my $plugin = MT::Plugin::FiscalYearlyArchives->instance;
-    $plugin->translate('CONTENTTYPE-FISCAL-YEARLY_ADV'); 
+    $plugin->translate('CONTENTTYPE-FISCAL-YEARLY_ADV');
+}
+
+sub archive_short_label {
+    my $plugin = MT::Plugin::FiscalYearlyArchives->instance;
+    $plugin->translate('FISCAL-YEARLY_ADV');
 }
 
 sub order { 215 }
@@ -41,30 +46,19 @@ sub template_params {
     };
 }
 
-sub archive_title {
-    FiscalYearlyArchives::FiscalYearly::archive_title( @_ );
-}
-
-sub archive_file {
-    FiscalYearlyArchives::FiscalYearly::archive_file( @_ );
-}
-
-sub date_range {
-    FiscalYearlyArchives::FiscalYearly::date_range( @_ );
-}
-
 sub archive_group_iter {
     my $obj = shift;
     my ( $ctx, $args ) = @_;
     my $blog = $ctx->stash('blog');
     my $iter;
-    my $sort_order
-        = ( $args->{sort_order} || '' ) eq 'ascend' ? 'ascend' : 'descend';
+    my $sort_order =
+      ( $args->{sort_order} || '' ) eq 'ascend' ? 'ascend' : 'descend';
     my $order = ( $sort_order eq 'ascend' ) ? 'asc' : 'desc';
 
     my $content_type_id = $ctx->stash('content_type')->id;
     my $map             = $obj->_get_preferred_map(
-        {   blog_id         => $blog->id,
+        {
+            blog_id         => $blog->id,
             content_type_id => $content_type_id,
             map             => $ctx->stash('template_map'),
         }
@@ -74,15 +68,14 @@ sub archive_group_iter {
     require MT::ContentData;
     require MT::ContentFieldIndex;
 
-    my $group_terms
-        = $obj->make_archive_group_terms( $blog->id, $dt_field_id, '', '',
-        '', $content_type_id );
-    my $group_args
-        = $obj->make_archive_group_args( 'datebased_only', 'yearly',
+    my $group_terms =
+      $obj->make_archive_group_terms( $blog->id, $dt_field_id, '', '', '',
+        $content_type_id );
+    my $group_args = $obj->make_archive_group_args( 'datebased_only', 'yearly',
         $map, '', '', $args->{lastn}, $order, '' );
 
     $iter = MT::ContentData->count_group_by( $group_terms, $group_args )
-        or return $ctx->error("Couldn't get yearly archive list");
+      or return $ctx->error("Couldn't get yearly archive list");
 
     my @count_groups;
     my $prev_year;
@@ -111,6 +104,30 @@ sub archive_group_iter {
         }
         undef;
     };
+}
+
+sub archive_group_contents {
+    my $obj = shift;
+    my ( $ctx, $param, $content_type_id ) = @_;
+    my $ts =
+      $param->{fiscal_year}
+      ? sprintf( "%04d%02d%02d000000",
+        $param->{fiscal_year}, fiscal_start_month(), 1 )
+      : undef;
+    my $limit = $param->{limit};
+    $obj->dated_group_contents( $ctx, $obj->name, $ts, $limit );
+}
+
+sub archive_title {
+    FiscalYearlyArchives::FiscalYearly::archive_title(@_);
+}
+
+sub archive_file {
+    FiscalYearlyArchives::FiscalYearly::archive_file(@_);
+}
+
+sub date_range {
+    FiscalYearlyArchives::FiscalYearly::date_range(@_);
 }
 
 1;
