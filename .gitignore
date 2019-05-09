@@ -9,3 +9,6 @@ blib
 pm_to_blib
 *.tar.gz
 *.tar.bz2
+
+*.sw?
+

@@ -16,6 +16,8 @@ sub archive_label {
     $plugin->translate('CATEGORY-FISCAL-YEARLY_ADV');
 }
 
+sub order { 165 }
+
 sub default_archive_templates {
     return [
         {

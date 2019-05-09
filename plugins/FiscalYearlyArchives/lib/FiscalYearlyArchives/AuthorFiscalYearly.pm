@@ -16,6 +16,8 @@ sub archive_label {
     $plugin->translate('AUTHOR-FISCAL-YEARLY_ADV');
 }
 
+sub order { 115 }
+
 sub default_archive_templates {
     return [
         {
